@@ -27,7 +27,7 @@ module.exports = (app) => {
 
   //query parameter containing the id of a note to delete
   app.delete("/api/notes/:id", (req, res) => {
-    let choose = req.param.id;
+    let choose = req.params.id;
     let oldNote = JSON.parse(
       fs.readFileSync(path.join(__dirname, "../db/db.json"), "utf-8")
     );
