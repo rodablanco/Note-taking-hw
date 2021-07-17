@@ -1,5 +1,6 @@
 const express = require('express');
 const notesDB = require('./db/db.json')
+var compression = require("compression");
 
 //tells node that we are creating an "express" server
 const app = express();
@@ -25,3 +26,16 @@ require('./routes/view')(app);
 app.listen(PORT, () => {
     console.log(`App listening on PORT: http://localhost:${PORT}`);
 })
+
+
+app.use(compression({ filter: shouldCompress }));
+
+function shouldCompress(req, res) {
+  if (req.headers["x-no-compression"]) {
+    // don't compress responses with this request header
+    return false;
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
